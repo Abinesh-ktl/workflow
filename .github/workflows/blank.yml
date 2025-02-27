@@ -34,3 +34,40 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+    build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Build the API
+      - name: Build API
+        run: npm run build
+
+      # Test the API
+      - name: Run tests
+        run: npm test
+
+      # Lint the code for quality checks
+      - name: Run linting
+        run: npm run lint
+
+      # Example: Start the API for integration tests
+      - name: Start API for integration tests
+        run: |
+          npm start &
+          sleep 5 # Wait for the API to start
+          echo Running integration tests...
+          curl -X GET http://localhost:3000/health # Replace with actual health check endpoint
