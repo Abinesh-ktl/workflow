@@ -1,0 +1,19 @@
+name: abiii
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+      API_KEY: ${{ secrets.API_KEY }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Print Environment Variable
+        run: echo "Environment is $NODE_ENV"
