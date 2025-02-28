@@ -1,0 +1,36 @@
+name: Build and Store Artifacts
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build the project
+        run: |
+          mkdir -p output
+          echo "Hello, World!" > output/hello.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: output/
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output
+
+      - name: Verify artifact
+        run: cat output/hello.txt
