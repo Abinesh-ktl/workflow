@@ -1,4 +1,4 @@
-name: Secure Workflow
+name: Deploy Workflow
 
 on:
   push:
@@ -6,15 +6,17 @@ on:
       - main
 
 jobs:
-  use-secret:
+  deploy:
     runs-on: ubuntu-latest
+    environment: abi # Environment name
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Use Secret
+      - name: Use environment-specific secret
         env:
-          PASSWORD: ${{ secrets.pass }}
+          SECRET_PASS: ${{ secrets.SECRET_PASS }}
         run: |
-          echo "Using the secret pass..."
-          echo "The password is $PASSWORD" # Avoid echoing sensitive information in real use
+          echo "Deploying to the ${{ github.environment }} environment"
+          # Deployment logic here
