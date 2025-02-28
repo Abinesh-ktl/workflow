@@ -1,0 +1,20 @@
+name: Secure Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Secret
+        env:
+          PASSWORD: ${{ secrets.PASS }}
+        run: |
+          echo "The password is $PASSWORD"
+          # Use the password securely in your commands
